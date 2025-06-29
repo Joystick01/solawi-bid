@@ -1,5 +1,7 @@
 import com.microsoft.playwright.Browser
 import com.microsoft.playwright.BrowserContext
+import com.microsoft.playwright.Page
+import com.microsoft.playwright.options.AriaRole
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
@@ -15,10 +17,10 @@ class TestUtils {
 
             try {
                 page.navigate("http://localhost:8080/login")
-                page.click("[data-id='cookie-disclaimer.modal.submit-button']")
-                page.fill("[data-id='login-form.input.username']", "owner@solyton.org")
-                page.fill("[data-id='login-form.input.password']", "4l=6mx4Vinz-DT")
-                page.click("[data-id='login-form.submit-button']")
+                page.getByRole(AriaRole.BUTTON, Page.GetByRoleOptions().setName("Ok")).click()
+                page.getByRole(AriaRole.TEXTBOX, Page.GetByRoleOptions().setName("Nutzername")).fill("owner@solyton.org")
+                page.getByRole(AriaRole.TEXTBOX, Page.GetByRoleOptions().setName("Passwort")).fill("4l=6mx4Vinz-DT")
+                page.getByRole(AriaRole.BUTTON, Page.GetByRoleOptions().setName("Login")).click()
                 page.waitForURL("**/dashboard")
 
                 // Storage-State speichern (Cookies, LocalStorage, etc.)
